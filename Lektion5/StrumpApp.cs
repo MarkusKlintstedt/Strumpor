@@ -22,6 +22,7 @@
             Console.WriteLine("   3 - Skriv ut strumplista");
             Console.WriteLine("   4 - Spara strumplista");
             Console.WriteLine("   5 - Sortera listan med avseende på storlek");
+            Console.WriteLine("   6 - Skriva ut listan grupperad efter betyg");
             Console.WriteLine("   0 - Avsluta");
             Console.WriteLine($"\n{new String('~', 40)}");
             Console.Write(" Välj ett alternativ: ");
@@ -55,6 +56,9 @@
                 case "5":
                     MenyvalSortera();
                     break;
+                case "6":
+                    MenyvalGrupperaLista();
+                    break;
                 case "0":
                     break;
                 default:
@@ -63,6 +67,23 @@
                     break;
 
             }
+        }
+
+        private void MenyvalGrupperaLista()
+        {
+            Console.Clear();
+            Console.WriteLine("\n ~~~~~ Grupperad lista efter betyg ~~~~~\n");
+
+            var strumpListaGrupperad = strumphanterare.Strumpor.GroupBy(s => s.Betyg).OrderByDescending(s => s.Key);
+            foreach (var betygsGrupp in strumpListaGrupperad)
+            {
+                Console.WriteLine($"Strumpor med betyg {betygsGrupp.Key}:");
+                foreach (var item in betygsGrupp.OrderByDescending(s => s.Storlek))
+                {
+                    Console.WriteLine($"  * {item.Färg} strumpa av storlek {item.Storlek}");
+                }
+            }
+            Delay();
         }
 
         private void MenyvalSortera()
